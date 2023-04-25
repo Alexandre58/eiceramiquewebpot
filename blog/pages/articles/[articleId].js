@@ -5,7 +5,8 @@ import styles from "../../styles/_atelier.module.scss";
 import img9 from "../../public/images/img9.jpg";
 import Image from "next/image";
 import Head from "next/head";
-const Article = ({ article }) => {
+import { v4 as uuidv4 } from "uuid";
+const Article = ({ articles }) => {
   return (
     <section className={styles.atelier_section_container}>
       <Head>
@@ -15,29 +16,36 @@ const Article = ({ article }) => {
           content="Articles de chaques potier rédigés par leurs propre mots et leurs propre images.Leurs adresses est également disonible si vous passez dans leurs régions."
         />
       </Head>
-      <div className={styles.atelier_div_container}>
-        <h1 className={styles.atelier_section_h1}>{article[0].username}</h1>
-      </div>
-      <article className={styles.atelier_section_article}>
-        <p>
-          Découvrez l&prime;article de
-          <strong>
-            {article[0].firstname} {article[0].name}
-          </strong>
-        </p>
-        <p>
-          <strong>{article[0].username}</strong>
-        </p>
-        <p>{article[0].comment}</p>
-        <Image
-          className={styles.atelier_Images}
-          src={img9}
-          alt="Picture of the author"
-          width={2400}
-          height={3408}
-          placeholder="blur"
-        />
-      </article>
+      {articles.map((article) => {
+        return (
+          <>
+            <div key={uuidv4()} className={styles.atelier_div_container}>
+              <h1 className={styles.atelier_section_h1}>{article.username}</h1>
+            </div>
+            <article className={styles.atelier_section_article}>
+              <p>
+                Découvrez l&prime;article de
+                <strong>
+                  {article.firstname} {article.name}
+                </strong>
+              </p>
+              <p>
+                <strong>{article.username}</strong>
+              </p>
+              <p>{article.comment}</p>
+              <Image
+                className={styles.atelier_Images}
+                src={img9}
+                alt="Picture of the author"
+                width={2400}
+                height={3408}
+                placeholder="blur"
+              />
+            </article>
+          </>
+        );
+      })}
+
       <LinkArticles retour="Retour  liste d'article" />
       <AsideNav />
     </section>
@@ -45,15 +53,8 @@ const Article = ({ article }) => {
 };
 
 export default Article;
-export async function getStaticPaths() {
-  return {
-    paths: [{ params: { articleId: "75" } }],
-    fallback: true,
-  };
-}
 
 export async function getStaticProps(context) {
-  //const id = context.params.article;
   const { params } = context;
   //attention backtick dans le fetch
   const res = await fetch(
@@ -62,8 +63,14 @@ export async function getStaticProps(context) {
   const data = await res.json();
   return {
     props: {
-      article: data,
+      articles: data,
     },
     revalidate: 10,
+  };
+}
+export async function getStaticPaths() {
+  return {
+    paths: [{ params: { articleId: "74" } }],
+    fallback: false,
   };
 }

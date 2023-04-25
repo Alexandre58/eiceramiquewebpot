@@ -53,15 +53,15 @@ const Articles = ({ articles }) => {
     </section>
   );
 };
-//appel api jsonplaceholder
+
+//appel api eiceramique
 export async function getStaticProps() {
-  const data2 = await fetch("http://localhost:3000/api/users");
-  const articles = await data2.json();
+  const res = await fetch("http://localhost:3000/api/users");
+  const data = await res.json();
   return {
     props: {
-      articles,
+      articles: data,
     },
   };
 }
-
 export default Articles;

@@ -1,5 +1,9 @@
 ## Site dédié à la céramique.
 
+Réinitialisation du repository eicemiqueweb car nextjs oblige à deplacer la dossier dans C:// de windows pour évité les soucis avec npm run build.
+
+faire egalement un npm i sharp pour les images (npm run build).
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
